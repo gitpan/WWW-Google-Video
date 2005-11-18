@@ -1,0 +1,14 @@
+name: WWW-Google-Video
+version: 0.1
+abstract: 1
+author: Lilo Huang <kenwu@mail.tnssh.tn.edu.tw>
+license: perl
+distribution_type: module
+build_requires:
+  Test::More: 0
+requires:
+  LWP::Simple: 0
+no_index:
+  directory:
+    - inc
+generated_by: Module::Install version 0.36
