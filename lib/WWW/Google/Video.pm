@@ -4,13 +4,13 @@ use strict;
 use warnings;
 use vars qw($VERSION);
 use LWP::Simple;
-$VERSION = '0.1';
+$VERSION = '0.2';
 
 sub new { bless {}, $_[0]; }
 sub fetch {
 my $url=get $_[1];
 my @pic;
-if($url=~/.+\Q<object data="\/googleplayer.swf?videoUrl=\E([^"]+)\Q"\E.+/s) {
+if($url=~/.+\Qgoogleplayer.swf?videoUrl=\E([^\&]+)\Q\&\E.+/s) {
     ${$_[0]}{url}=$1;
     ${$_[0]}{url}=~tr/+/ /;
     ${$_[0]}{url}=~s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
@@ -61,7 +61,7 @@ It uses C<LWP::Simple> for making request to Google.
 
 =head1 COPYRIGHT
 
-Copyright 2005 by Lilo Huang All Rights Reserved.
+Copyright 2005,2006 by Lilo Huang All Rights Reserved.
 
 You can use this module under the same terms as Perl itself.
 
