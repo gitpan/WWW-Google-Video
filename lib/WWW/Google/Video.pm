@@ -4,22 +4,23 @@ use strict;
 use warnings;
 use vars qw($VERSION);
 use LWP::Simple;
-$VERSION = '0.2';
+$VERSION = '0.3';
 
 sub new { bless {}, $_[0]; }
 sub fetch {
 my $url=get $_[1];
 my @pic;
-if($url=~/.+\Qgoogleplayer.swf?videoUrl=\E([^\&]+)\Q\&\E.+/s) {
+if($url=~/.+\Qgoogleplayer.swf?videoUrl\E\\u003d([^\\"]+).+/s) {
     ${$_[0]}{url}=$1;
     ${$_[0]}{url}=~tr/+/ /;
+    ${$_[0]}{url}=~s/\\u003d/=/g;
     ${$_[0]}{url}=~s/%([a-fA-F0-9][a-fA-F0-9])/pack("C", hex($1))/eg;
 }
 if($url=~/\Q<div id="pvprogtitle"> \E(.+?)\Q<\/div>\E/s) {
     ${$_[0]}{name}=$1;
     ${$_[0]}{name}=~s/<[^<]+>//g;
 }
-    $url=~s/((\d* hr )?(\d* min )?(\d* sec)) -/${$_[0]}{length}=$1/e;
+    $url=~s/((\d+ hr )?(\d+ min )?(\d+ sec)?)\s*\-  \w{3}/${$_[0]}{length}=$1/e;
     $url=~s/\Q<img src="\E(http:\/\/video.google.com\/ThumbnailServer[^"]+)"/my $tmp=$1;$tmp=~s#&amp;#&#g;push(@pic,$tmp)/eg;
     ${$_[0]}{pic}=\@pic;
 }
