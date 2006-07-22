@@ -4,13 +4,13 @@ use strict;
 use warnings;
 use vars qw($VERSION);
 use LWP::Simple;
-$VERSION = '0.3';
+$VERSION = '0.4';
 
 sub new { bless {}, $_[0]; }
 sub fetch {
 my $url=get $_[1];
 my @pic;
-if($url=~/.+\Qgoogleplayer.swf?videoUrl\E\\u003d([^\\"]+).+/s) {
+if($url=~/.+\Q&videoUrl\E\\u003d([^\\"]+).+/s) {
     ${$_[0]}{url}=$1;
     ${$_[0]}{url}=~tr/+/ /;
     ${$_[0]}{url}=~s/\\u003d/=/g;
